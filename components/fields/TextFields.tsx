@@ -1,10 +1,22 @@
 'use client';
 
-import { MdTextFields } from "react-icons/md";
-import { ElementsType, FormElement } from "../FormElements";
-
+import { MdTextFields } from 'react-icons/md';
+import {
+    ElementsType,
+    FormElement,
+    FormElementInstance,
+} from '../FormElements';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 const type: ElementsType = 'TextField';
+
+const extraAttribute = {
+    label: 'Text Field',
+    helperText: 'Helper text',
+    require: false,
+    placeHolder: 'Value here...',
+};
 
 export const TextFieldFormElement: FormElement = {
     type,
@@ -12,22 +24,47 @@ export const TextFieldFormElement: FormElement = {
     construct: (id: string) => ({
         id,
         type,
-        extraAttribute: {
-            label: 'Text Field',
-            helperText: 'Helper text',
-            require: false,
-            placeHolder: 'Value here...',
-        },
+        extraAttribute,
     }),
 
     designerBtnElement: {
-        icon: MdTextFields ,
+        icon: MdTextFields,
         label: 'Text Field',
     },
 
-
-
-    designerComponent : () => <div>Designer component</div>,
-    formComponent : () => <div>Form component</div>,
-    propertiesComponent : () => <div>Properties component</div>
+    designerComponent: designerComponent,
+    formComponent: () => <div>Form component</div>,
+    propertiesComponent: () => <div>Properties component</div>,
 };
+
+type CustomInstance = FormElementInstance & {
+    extraAttribute: typeof extraAttribute;
+};
+
+function designerComponent({
+    elementInstance,
+}: {
+    elementInstance: FormElementInstance;
+}) {
+    const element = elementInstance as CustomInstance;
+    const { label, required, placeHolder, helperText } = element.extraAttribute;
+
+    return (
+        <div className="flex flex-col gap-2 w-full">
+            <Label>
+                {label}
+                {required && '*'}
+            </Label>
+            <Input
+                readOnly
+                disabled
+                placeholder={placeHolder}
+            />
+            {helperText && (
+                <p className="text-muted-foreground text-[0.8rem]">
+                    {helperText}
+                </p>
+            )}
+        </div>
+    );
+}

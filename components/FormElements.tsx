@@ -5,7 +5,7 @@ export type ElementsType = 'TextField';
 export type FormElement = {
     type: ElementsType;
 
-    construct: (id: string) => FormElementIstance;
+    construct: (id: string) => FormElementInstance;
 
 
     designerBtnElement: {
@@ -14,13 +14,15 @@ export type FormElement = {
     }
 
 
-    designerComponent: React.FC;
+    designerComponent: React.FC<{
+        elementInstance: FormElementInstance;
+    }>;
     formComponent: React.FC;
     propertiesComponent: React.FC;
 };
 
 
-export type FormElementIstance ={
+export type FormElementInstance ={
     id: string;
     type: ElementsType;
     extraAttribute?: Record<string, any>;
@@ -33,6 +35,6 @@ type FormElementsType = {
 }
 
 
-export const FormElement:FormElementsType = {
+export const FormElements: FormElementsType = {
     TextField: TextFieldFormElement,
 };
