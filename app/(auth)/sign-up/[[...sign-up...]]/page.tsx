@@ -1,8 +1,5 @@
-import { SignUpButton } from "@clerk/nextjs"
+import { SignUp } from '@clerk/nextjs';
 
-
-const SignUp =() => {
-    return (
-        <SignUpButton />
-    )
+export default function Page() {
+    return <SignUp />;
 }
